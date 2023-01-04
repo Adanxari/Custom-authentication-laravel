@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegistrationValidation;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -15,21 +17,15 @@ class RegisterController extends Controller
         return view('auth.register');
       }
 
-      public function store(Request $request)
+    public function store(RegistrationValidation $request)
       {
-          $request->validate([
-              'name' => 'required|string|max:255',
-              'email' => 'required|string|email|max:255|unique:users',
-              'password' => 'required|string|min:8|confirmed',
-              'password_confirmation' => 'required',
-          ]);
-
           User::create([
               'name' => $request->name,
               'email' => $request->email,
               'password' => Hash::make($request->password),
           ]);
 
-          return redirect('login');
+          Auth::attempt($request->only('email', 'password'));
+          return redirect('home');
       }
 }

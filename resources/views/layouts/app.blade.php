@@ -48,7 +48,7 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                        @else
+                            @else
                             <li class="nav-item dropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}">
                                     {{ __('Logout') }}
